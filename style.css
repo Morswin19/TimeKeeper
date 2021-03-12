@@ -30,4 +30,9 @@
   height: 50px;
   margin: 50px 0;
 }
+
+.digital {
+  min-width: 100px;
+  color: red;
+}
 /*# sourceMappingURL=style.css.map */
