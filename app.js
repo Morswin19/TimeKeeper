@@ -15,7 +15,9 @@ const startTime = () => {
 
 const addTime = () => {
   time += 1;
-  secondsElement.innerHTML = Math.floor(time / 100);
+  (time / 100) % 60 < 10
+    ? (secondsElement.innerHTML = `0${Math.floor(time / 100) % 60}`)
+    : (secondsElement.innerHTML = Math.floor(time / 100) % 60);
   milisecondsElement.innerHTML = Math.floor(time % 100);
 };
 
