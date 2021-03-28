@@ -8,17 +8,47 @@ const stopButton = document.querySelector('.stop');
 const resetButton = document.querySelector('.reset');
 
 let time = 0;
+let miliseconds = time % 100;
+let seconds = Math.floor((time / 100) % 60);
+let minutes = (time / 6000) % 60;
+let hours = time / 360000;
+
+let startTimeInterval;
 
 const startTime = () => {
-  setInterval(addTime, 10);
+  startTimeInterval = setInterval(addTime, 10);
+};
+
+const stopTime = () => {
+  clearInterval(startTimeInterval);
+};
+
+const resetTime = () => {
+  clearInterval(startTimeInterval);
+  time = 0;
+  changeVisibleTime(time);
 };
 
 const addTime = () => {
   time += 1;
-  (time / 100) % 60 < 10
-    ? (secondsElement.innerHTML = `0${Math.floor(time / 100) % 60}`)
-    : (secondsElement.innerHTML = Math.floor(time / 100) % 60);
-  milisecondsElement.innerHTML = Math.floor(time % 100);
+  changeVisibleTime(time);
 };
 
 startButton.addEventListener('click', startTime);
+stopButton.addEventListener('click', stopTime);
+resetButton.addEventListener('click', resetTime);
+
+const changeVisibleTime = time => {
+  miliseconds = time % 100;
+  seconds = Math.floor((time / 100) % 60);
+  minutes = (time / 6000) % 60;
+  hours = time / 360000;
+
+  seconds < 10
+    ? (secondsElement.innerHTML = `0${seconds}`)
+    : (secondsElement.innerHTML = seconds);
+
+  miliseconds < 10
+    ? (milisecondsElement.innerHTML = `0${miliseconds}`)
+    : (milisecondsElement.innerHTML = Math.floor(time % 100));
+};
