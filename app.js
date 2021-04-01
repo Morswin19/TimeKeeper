@@ -41,14 +41,18 @@ resetButton.addEventListener('click', resetTime);
 const changeVisibleTime = time => {
   miliseconds = time % 100;
   seconds = Math.floor((time / 100) % 60);
-  minutes = (time / 6000) % 60;
+  minutes = Math.floor((time / 6000) % 60);
   hours = time / 360000;
+
+  minutes < 10
+    ? (minutesElement.innerHTML = `0${minutes}`)
+    : (minutesElement.innerHTML = minutes);
 
   seconds < 10
     ? (secondsElement.innerHTML = `0${seconds}`)
     : (secondsElement.innerHTML = seconds);
 
   miliseconds < 10
-    ? (milisecondsElement.innerHTML = `0${miliseconds}`)
-    : (milisecondsElement.innerHTML = Math.floor(time % 100));
+    ? (milisecondsElement.innerHTML = `:0${miliseconds}`)
+    : (milisecondsElement.innerHTML = `:${Math.floor(time % 100)}`);
 };
