@@ -26,12 +26,18 @@ const stopTime = () => {
 const resetTime = () => {
   clearInterval(startTimeInterval);
   time = 0;
+  setTimeToLS(time);
   changeVisibleTime(time);
 };
 
 const addTime = () => {
   time += 1;
+  setTimeToLS(time);
   changeVisibleTime(time);
+};
+
+const setTimeToLS = time => {
+  localStorage.setItem('time', JSON.stringify(time));
 };
 
 startButton.addEventListener('click', startTime);
@@ -42,7 +48,11 @@ const changeVisibleTime = time => {
   miliseconds = time % 100;
   seconds = Math.floor((time / 100) % 60);
   minutes = Math.floor((time / 6000) % 60);
-  hours = time / 360000;
+  hours = Math.floor(time / 360000);
+
+  hours < 10
+    ? (hoursElement.innerHTML = `0${hours}`)
+    : (hoursElement.innerHTML = hours);
 
   minutes < 10
     ? (minutesElement.innerHTML = `0${minutes}`)
@@ -55,4 +65,10 @@ const changeVisibleTime = time => {
   miliseconds < 10
     ? (milisecondsElement.innerHTML = `:0${miliseconds}`)
     : (milisecondsElement.innerHTML = `:${Math.floor(time % 100)}`);
+};
+
+const changeTimeButton = value => {
+  time += value;
+  if (time < 0) time = 0;
+  changeVisibleTime(time);
 };
