@@ -6,16 +6,23 @@ const milisecondsElement = document.querySelector('.miliseconds');
 const startButton = document.querySelector('.start');
 const stopButton = document.querySelector('.stop');
 const resetButton = document.querySelector('.reset');
+const testDate = document.querySelector('.test-date');
 
 let time = 0;
 let miliseconds = time % 100;
 let seconds = Math.floor((time / 100) % 60);
 let minutes = (time / 6000) % 60;
 let hours = time / 360000;
+let dateStart;
+let timeStart;
+let dateNow;
+let timeNow;
 
 let startTimeInterval;
 
 const startTime = () => {
+  dateStart = new Date();
+  timeStart = dateStart.getTime();
   startTimeInterval = setInterval(addTime, 10);
 };
 
@@ -31,7 +38,9 @@ const resetTime = () => {
 };
 
 const addTime = () => {
-  time += 1;
+  dateNow = new Date();
+  timeNow = dateNow.getTime();
+  time = Math.floor((timeNow - timeStart) / 10);
   setTimeToLS(time);
   changeVisibleTime(time);
 };
