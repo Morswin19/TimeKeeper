@@ -6,7 +6,6 @@ const milisecondsElement = document.querySelector('.miliseconds');
 const startButton = document.querySelector('.start');
 const stopButton = document.querySelector('.stop');
 const resetButton = document.querySelector('.reset');
-const testDate = document.querySelector('.test-date');
 
 let time = 0;
 let miliseconds = time % 100;
@@ -17,17 +16,21 @@ let dateStart;
 let timeStart;
 let dateNow;
 let timeNow;
+let isStopTime = false;
+let dateStop;
+let timeStop;
 
 let startTimeInterval;
 
 const startTime = () => {
+  clearInterval(startTimeInterval);
   dateStart = new Date();
   timeStart = dateStart.getTime();
   startTimeInterval = setInterval(addTime, 10);
 };
 
 const stopTime = () => {
-  clearInterval(startTimeInterval);
+  dateStop = clearInterval(startTimeInterval);
 };
 
 const resetTime = () => {
