@@ -18,19 +18,26 @@ let dateNow;
 let timeNow;
 let isStopTime = false;
 let dateStop;
-let timeStop;
+let timeStop = 0;
 
 let startTimeInterval;
 
 const startTime = () => {
-  clearInterval(startTimeInterval);
-  dateStart = new Date();
-  timeStart = dateStart.getTime();
-  startTimeInterval = setInterval(addTime, 10);
+  if (isStopTime === false) {
+    clearInterval(startTimeInterval);
+    dateStart = new Date();
+    timeStart = dateStart.getTime();
+    startTimeInterval = setInterval(addTime, 10);
+  } else {
+    startTimeInterval = setInterval(addTime, 10);
+  }
 };
 
 const stopTime = () => {
-  dateStop = clearInterval(startTimeInterval);
+  isStopTime = true;
+  clearInterval(startTimeInterval);
+  dateStop = new Date();
+  timeStop = dateStop.getTime();
 };
 
 const resetTime = () => {
@@ -43,7 +50,8 @@ const resetTime = () => {
 const addTime = () => {
   dateNow = new Date();
   timeNow = dateNow.getTime();
-  time = Math.floor((timeNow - timeStart) / 10);
+  time = Math.floor((timeNow - timeStart - (timeStop - timeNow)) / 10);
+  debugger;
   setTimeToLS(time);
   changeVisibleTime(time);
 };
