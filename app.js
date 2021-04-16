@@ -14,6 +14,8 @@ let minutes = (time / 6000) % 60;
 let hours = time / 360000;
 let dateStart;
 let timeStart;
+let dateSecondStart;
+let timeSecondStart;
 let dateNow;
 let timeNow;
 let isStopTime = false;
@@ -22,13 +24,30 @@ let timeStop = 0;
 
 let startTimeInterval;
 
+// const startTime = () => {
+//   if (isStopTime === false) {
+//     // clearInterval(startTimeInterval);
+//     dateStart = new Date();
+//     timeStart = dateStart.getTime();
+//     startTimeInterval = setInterval(addTime, 10);
+//   } else {
+//     dateSecondStart = new Date();
+//     timeSecondStart = dateSecondStart.getTime();
+//     startTimeInterval = setInterval(addTime, 10);
+//   }
+// };
+
 const startTime = () => {
   if (isStopTime === false) {
-    clearInterval(startTimeInterval);
+    // clearInterval(startTimeInterval);
     dateStart = new Date();
     timeStart = dateStart.getTime();
+    console.log(dateStart);
     startTimeInterval = setInterval(addTime, 10);
   } else {
+    dateSecondStart = new Date();
+    timeSecondStart = dateSecondStart.getTime();
+    timeStart = timeSecondStart + (timeStop - timeStart);
     startTimeInterval = setInterval(addTime, 10);
   }
 };
@@ -41,24 +60,34 @@ const stopTime = () => {
 };
 
 const resetTime = () => {
+  isStopTime = false;
   clearInterval(startTimeInterval);
   time = 0;
-  setTimeToLS(time);
+  // setTimeToLS(time);
   changeVisibleTime(time);
 };
 
 const addTime = () => {
+  // console.log(time);
+  // console.log(timeNow);
   dateNow = new Date();
   timeNow = dateNow.getTime();
-  time = Math.floor((timeNow - timeStart - (timeStop - timeNow)) / 10);
-  debugger;
-  setTimeToLS(time);
+  if (isStopTime) {
+    time = Math.floor(
+      // (timeNow - timeStart - (timeSecondStart - timeStop)) / 10
+      (timeNow - timeStart - (timeStart - timeStop)) / 10
+    );
+  } else {
+    time = Math.floor((timeNow - timeStart) / 10);
+  }
+  // debugger;
+  // setTimeToLS(time);
   changeVisibleTime(time);
 };
 
-const setTimeToLS = time => {
-  localStorage.setItem('time', JSON.stringify(time));
-};
+// const setTimeToLS = time => {
+//   localStorage.setItem('time', JSON.stringify(time));
+// };
 
 startButton.addEventListener('click', startTime);
 stopButton.addEventListener('click', stopTime);
